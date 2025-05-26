@@ -125,7 +125,8 @@ public class LeaderboardView extends BorderPane {
                     GameSession session = highScores.get(i);
                     
                     // Get player info
-                    Player scorePlayer = DatabaseManager.getInstance().getPlayerByUsername(String.valueOf(session.getPlayerId()));
+                    Player scorePlayer = DatabaseManager.getInstance().getPlayerById(session.getPlayerId());
+
                     String playerName = scorePlayer != null ? scorePlayer.getUsername() : "Unknown";
                     
                     // Highlight current player

@@ -198,7 +198,26 @@ public class DatabaseManager {
         
         return sessions;
     }
-    
+    public Player getPlayerById(int id) throws SQLException {
+        String sql = "SELECT * FROM players WHERE id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return new Player(
+                        rs.getInt("id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("created_at")
+                );
+            }
+        }
+
+        return null;
+    }
+
     public List<GameSession> getHighScores(String difficulty, int limit) throws SQLException {
         String sql = "SELECT * FROM game_sessions WHERE difficulty = ? AND completed = 1 " +
                     "ORDER BY score DESC LIMIT ?";
